@@ -1,0 +1,47 @@
+{
+ "id": "sum_big",
+ "code": "x = torch.randn(65536)\nx.sum()",
+ "rtol": 0.001,
+ "atol": 0.001,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "sum_1",
+   "entry": "sum_1",
+   "arg_order": [
+    "x",
+    "sum_1"
+   ],
+   "grid": [
+    64,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_bytes": 16,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "x",
+     "dtype": "f32",
+     "shape": [
+      65536
+     ],
+     "seed": 0
+    },
+    {
+     "name": "sum_1",
+     "dtype": "f32",
+     "shape": [],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

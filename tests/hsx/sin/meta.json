@@ -1,0 +1,49 @@
+{
+ "id": "sin",
+ "code": "x = torch.randn(2048)\ntorch.sin(x)",
+ "rtol": 0.0001,
+ "atol": 0.0001,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "sin",
+   "entry": "k_sin_pointwise",
+   "arg_order": [
+    "x",
+    "sin"
+   ],
+   "grid": [
+    2,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_bytes": 0,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "x",
+     "dtype": "f32",
+     "shape": [
+      2048
+     ],
+     "seed": 0
+    },
+    {
+     "name": "sin",
+     "dtype": "f32",
+     "shape": [
+      2048
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

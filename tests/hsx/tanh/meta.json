@@ -1,0 +1,49 @@
+{
+ "id": "tanh",
+ "code": "x = torch.randn(2048)\ntorch.tanh(x)",
+ "rtol": 1e-05,
+ "atol": 1e-05,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "tanh",
+   "entry": "k_tanh_pointwise",
+   "arg_order": [
+    "x",
+    "tanh"
+   ],
+   "grid": [
+    2,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_bytes": 0,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "x",
+     "dtype": "f32",
+     "shape": [
+      2048
+     ],
+     "seed": 0
+    },
+    {
+     "name": "tanh",
+     "dtype": "f32",
+     "shape": [
+      2048
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

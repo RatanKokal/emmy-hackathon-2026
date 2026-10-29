@@ -1,0 +1,49 @@
+{
+ "id": "exp2",
+ "code": "x = torch.randn(2048)\ntorch.exp2(x)",
+ "rtol": 1e-05,
+ "atol": 1e-05,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "exp2",
+   "entry": "k_exp2_pointwise",
+   "arg_order": [
+    "x",
+    "exp2"
+   ],
+   "grid": [
+    2,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_bytes": 0,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "x",
+     "dtype": "f32",
+     "shape": [
+      2048
+     ],
+     "seed": 0
+    },
+    {
+     "name": "exp2",
+     "dtype": "f32",
+     "shape": [
+      2048
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

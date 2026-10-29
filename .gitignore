@@ -1,0 +1,23 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# organizer-only evaluation material
+hidden/
+hidden_full/
+expressions_hidden.py
+.tools/
+
+# local-only working notes + generated artifacts (not part of the submission)
+glm_context.md
+findings.md
+slides/SPEAKER_SCRIPT.md
+tests/.out/
+.testcorpus/
+slides/design_review/
+slides/*.aux
+slides/*.log
+slides/*.out
+slides/*.nav
+slides/*.snm
+slides/*.toc

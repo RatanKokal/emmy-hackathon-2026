@@ -1,0 +1,71 @@
+{
+ "id": "pow",
+ "code": "x = torch.randn(2048)\ntorch.pow(torch.abs(x) + 0.5, 2.5)",
+ "rtol": 0.0001,
+ "atol": 1e-05,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "pow_1",
+   "entry": "k_pow_1_pointwise",
+   "arg_order": [
+    "add_c1",
+    "pow_1_c1",
+    "x",
+    "pow_1"
+   ],
+   "grid": [
+    2,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_bytes": 0,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "add_c1",
+     "dtype": "f32",
+     "shape": [
+      1
+     ],
+     "data": [
+      0.5
+     ]
+    },
+    {
+     "name": "pow_1_c1",
+     "dtype": "f32",
+     "shape": [
+      1
+     ],
+     "data": [
+      2.5
+     ]
+    },
+    {
+     "name": "x",
+     "dtype": "f32",
+     "shape": [
+      2048
+     ],
+     "seed": 2
+    },
+    {
+     "name": "pow_1",
+     "dtype": "f32",
+     "shape": [
+      2048
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

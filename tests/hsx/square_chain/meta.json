@@ -1,0 +1,71 @@
+{
+ "id": "square_chain",
+ "code": "x = torch.randn(2048)\ntorch.square(x) + x * 2.0 + 1.0",
+ "rtol": 1e-06,
+ "atol": 1e-06,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "add_1",
+   "entry": "k_add_1_pointwise",
+   "arg_order": [
+    "mul_c1",
+    "add_1_c1",
+    "x",
+    "add_1"
+   ],
+   "grid": [
+    2,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_bytes": 0,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "mul_c1",
+     "dtype": "f32",
+     "shape": [
+      1
+     ],
+     "data": [
+      2.0
+     ]
+    },
+    {
+     "name": "add_1_c1",
+     "dtype": "f32",
+     "shape": [
+      1
+     ],
+     "data": [
+      1.0
+     ]
+    },
+    {
+     "name": "x",
+     "dtype": "f32",
+     "shape": [
+      2048
+     ],
+     "seed": 2
+    },
+    {
+     "name": "add_1",
+     "dtype": "f32",
+     "shape": [
+      2048
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

@@ -1,0 +1,73 @@
+{
+ "id": "relu2d",
+ "code": "x = torch.randn(256, 512)\ntorch.relu(x) * 3.0 - 1.0",
+ "rtol": 0,
+ "atol": 0,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "sub",
+   "entry": "k_sub_pointwise",
+   "arg_order": [
+    "mul_c1",
+    "sub_c1",
+    "x",
+    "sub"
+   ],
+   "grid": [
+    128,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_bytes": 0,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "mul_c1",
+     "dtype": "f32",
+     "shape": [
+      1
+     ],
+     "data": [
+      3.0
+     ]
+    },
+    {
+     "name": "sub_c1",
+     "dtype": "f32",
+     "shape": [
+      1
+     ],
+     "data": [
+      1.0
+     ]
+    },
+    {
+     "name": "x",
+     "dtype": "f32",
+     "shape": [
+      256,
+      512
+     ],
+     "seed": 2
+    },
+    {
+     "name": "sub",
+     "dtype": "f32",
+     "shape": [
+      256,
+      512
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

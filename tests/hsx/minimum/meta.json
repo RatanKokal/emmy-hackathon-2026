@@ -1,0 +1,60 @@
+{
+ "id": "minimum",
+ "code": "x = torch.randn(2048)\ntorch.minimum(x, torch.zeros_like(x))",
+ "rtol": 0,
+ "atol": 0,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "minimum",
+   "entry": "k_minimum_pointwise",
+   "arg_order": [
+    "zeros_like_scalar",
+    "x",
+    "minimum"
+   ],
+   "grid": [
+    2,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_bytes": 0,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "zeros_like_scalar",
+     "dtype": "f32",
+     "shape": [
+      1
+     ],
+     "data": [
+      0.0
+     ]
+    },
+    {
+     "name": "x",
+     "dtype": "f32",
+     "shape": [
+      2048
+     ],
+     "seed": 1
+    },
+    {
+     "name": "minimum",
+     "dtype": "f32",
+     "shape": [
+      2048
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

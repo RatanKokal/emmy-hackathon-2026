@@ -1,0 +1,49 @@
+{
+ "id": "l6_u8_vec",
+ "code": "fixture",
+ "rtol": 0.0,
+ "atol": 0.0,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "add",
+   "entry": "k_add_pointwise",
+   "arg_order": [
+    "x",
+    "add"
+   ],
+   "grid": [
+    1,
+    1,
+    1
+   ],
+   "block": [
+    8,
+    1,
+    1
+   ],
+   "smem_bytes": 0,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "x",
+     "dtype": "u8",
+     "shape": [
+      64
+     ],
+     "seed": 1
+    },
+    {
+     "name": "add",
+     "dtype": "u8",
+     "shape": [
+      32
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

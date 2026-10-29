@@ -1,0 +1,61 @@
+{
+ "id": "mm64a",
+ "code": "x = torch.randn(64, 64)\ny = torch.randn(64, 64)\nx @ y",
+ "rtol": 0.001,
+ "atol": 0.001,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "matmul",
+   "entry": "k_matmul_d4bced",
+   "arg_order": [
+    "y",
+    "x",
+    "matmul"
+   ],
+   "grid": [
+    64,
+    1,
+    1
+   ],
+   "block": [
+    64,
+    1,
+    1
+   ],
+   "smem_bytes": 16640,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "y",
+     "dtype": "f32",
+     "shape": [
+      64,
+      64
+     ],
+     "seed": 0
+    },
+    {
+     "name": "x",
+     "dtype": "f32",
+     "shape": [
+      64,
+      64
+     ],
+     "seed": 1
+    },
+    {
+     "name": "matmul",
+     "dtype": "f32",
+     "shape": [
+      64,
+      64
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

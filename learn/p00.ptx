@@ -1,0 +1,65 @@
+// Exercise 1 - pointwise add for p00_scalar_add.
+// Goal: python3.12 submit.py p00_scalar_add learn/p00.ptx   ->   PASS
+// Read side by side: examples/k_sum_1_reduce.ptx (annotated, working).
+// ASCII only, everywhere, comments included.
+
+.version 8.0
+.target sm_89
+.address_size 64
+
+.visible .entry k_add_pointwise(
+        .param .u64 param_x0,
+        .param .u64 param_x1,
+        .param .u64 param_add
+)
+{
+        .reg .pred      %p<2>;
+        .reg .f32       %f<10>;
+        .reg .b32       %r<10>;
+        .reg .b64       %rd<12>;
+
+        // fetch the three pointer arguments
+        ld.param.u64    %rd1, [param_x0];
+        ld.param.u64    %rd2, [param_x1];
+        ld.param.u64    %rd3, [param_add];
+
+        // make them usable as global-space addresses
+        cvta.to.global.u64      %rd4, %rd1;
+        cvta.to.global.u64      %rd5, %rd2;
+        cvta.to.global.u64      %rd6, %rd3;
+
+        // gid = blockIdx.x * blockDim.x + threadIdx.x
+        mov.u32         %r1, %ctaid.x;
+        mov.u32         %r2, %ntid.x;
+        mov.u32         %r3, %tid.x;
+        mul.lo.s32      %r4, %r1, %r2;
+        add.s32         %r5, %r4, %r3;
+
+        // guard: only 64 cells exist, the launch has 256 threads
+        setp.ge.s32     %p1, %r5, 64;
+        @%p1 bra        DONE;
+
+        // i0 = 2*gid, byte offset = i0*4
+        mul.lo.s32      %r6, %r5, 2;
+        mul.wide.s32    %rd7, %r6, 4;
+
+        // addresses of element i0 in each buffer
+        add.s64         %rd8, %rd4, %rd7;
+        add.s64         %rd9, %rd5, %rd7;
+        add.s64         %rd10, %rd6, %rd7;
+
+        // element i0
+        ld.global.f32   %f1, [%rd8];
+        ld.global.f32   %f2, [%rd9];
+        add.f32         %f3, %f1, %f2;
+        st.global.f32   [%rd10], %f3;
+
+        // element i0+1 (same addresses + 4 bytes)
+        ld.global.f32   %f4, [%rd8+4];
+        ld.global.f32   %f5, [%rd9+4];
+        add.f32         %f6, %f4, %f5;
+        st.global.f32   [%rd10+4], %f6;
+
+DONE:
+        ret;
+}

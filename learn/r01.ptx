@@ -1,0 +1,118 @@
+// Exercise 2 - block reduction for r01_array_sum.
+// Goal: python3.12 submit.py r01_array_sum learn/r01.ptx   ->   PASS
+// Semantics mirror r01's ref.cu: 8 strided sums per thread, butterfly
+// within each warp, one partial per warp in smem, halving tree, write.
+// ASCII only, everywhere, comments included.
+
+.version 8.0
+.target sm_89
+.address_size 64
+
+.shared .align 4 .b8 sdata[16];
+
+.visible .entry k_sum_1_reduce(
+        .param .u64 param_x,
+        .param .u64 param_sum_1
+)
+{
+        .reg .pred      %p<6>;
+        .reg .f32       %f<16>;
+        .reg .b32       %r<20>;
+        .reg .b64       %rd<10>;
+
+        // pointers
+        ld.param.u64    %rd1, [param_x];
+        ld.param.u64    %rd2, [param_sum_1];
+        cvta.to.global.u64      %rd3, %rd1;
+        cvta.to.global.u64      %rd4, %rd2;
+
+        // thread identity and warp identity
+        mov.u32         %r1, %tid.x;
+        and.b32         %r2, %r1, 31;           // lane = tid & 31
+        shr.u32         %r3, %r1, 5;            // warp = tid >> 5
+        mov.u32         %r10, sdata;            // 32-bit shared address of sdata
+
+        // acc = 0; for (a = tid; a < 1024; a += 128) acc += x[a]
+        mov.f32         %f1, 0f00000000;
+        mov.s32         %r4, %r1;
+
+LOOP:
+        setp.ge.s32     %p1, %r4, 1024;
+        @%p1 bra        LOOP_END;
+
+        mul.wide.s32    %rd5, %r4, 4;           // byte offset of x[a]
+        add.s64         %rd6, %rd3, %rd5;
+        ld.global.f32   %f2, [%rd6];
+        add.f32         %f1, %f1, %f2;          // in-place accumulate
+
+        add.s32         %r4, %r4, 128;
+        bra             LOOP;
+
+LOOP_END:
+        // warp all-reduce: 5 XOR butterfly rounds (offsets 16..1)
+        mov.b32         %r5, %f1;
+        shfl.sync.bfly.b32      %r6, %r5, 16, 0x1f, 0xffffffff;
+        mov.b32         %f3, %r6;
+        add.f32         %f1, %f1, %f3;
+
+        mov.b32         %r7, %f1;
+        shfl.sync.bfly.b32      %r8, %r7, 8, 0x1f, 0xffffffff;
+        mov.b32         %f4, %r8;
+        add.f32         %f1, %f1, %f4;
+
+        mov.b32         %r9, %f1;
+        shfl.sync.bfly.b32      %r11, %r9, 4, 0x1f, 0xffffffff;
+        mov.b32         %f5, %r11;
+        add.f32         %f1, %f1, %f5;
+
+        mov.b32         %r12, %f1;
+        shfl.sync.bfly.b32      %r13, %r12, 2, 0x1f, 0xffffffff;
+        mov.b32         %f6, %r13;
+        add.f32         %f1, %f1, %f6;
+
+        mov.b32         %r14, %f1;
+        shfl.sync.bfly.b32      %r15, %r14, 1, 0x1f, 0xffffffff;
+        mov.b32         %f7, %r15;
+        add.f32         %f1, %f1, %f7;
+
+        // lane 0 of each warp publishes its warp partial to smem[warp]
+        setp.eq.s32     %p2, %r2, 0;
+        @!%p2 bra       NO_PUBLISH;
+        mul.lo.s32      %r16, %r3, 4;
+        add.s32         %r17, %r10, %r16;
+        st.shared.f32   [%r17], %f1;
+NO_PUBLISH:
+        bar.sync 0;
+
+        // tree level s=2: warps 0,1 fold warp+2 into warp
+        setp.lt.s32     %p3, %r3, 2;
+        @!%p3 bra       TREE_2;
+        mul.lo.s32      %r18, %r3, 4;
+        add.s32         %r19, %r10, %r18;
+        ld.shared.f32   %f8, [%r19];
+        ld.shared.f32   %f9, [%r19+8];          // smem[warp+2]
+        add.f32         %f10, %f8, %f9;
+        st.shared.f32   [%r19], %f10;
+TREE_2:
+        bar.sync 0;
+
+        // tree level s=1: warp 0 folds warp+1 into warp 0
+        setp.lt.s32     %p4, %r3, 1;
+        @!%p4 bra       TREE_1;
+        mul.lo.s32      %r18, %r3, 4;
+        add.s32         %r19, %r10, %r18;
+        ld.shared.f32   %f8, [%r19];
+        ld.shared.f32   %f9, [%r19+4];          // smem[warp+1]
+        add.f32         %f10, %f8, %f9;
+        st.shared.f32   [%r19], %f10;
+TREE_1:
+        bar.sync 0;
+
+        // every thread reads the final sum, thread 0 writes it out
+        ld.shared.f32   %f11, [%r10];
+        setp.eq.s32     %p5, %r1, 0;
+        @!%p5 bra       DONE;
+        st.global.f32   [%rd4], %f11;
+DONE:
+        ret;
+}

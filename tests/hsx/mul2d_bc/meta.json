@@ -1,0 +1,61 @@
+{
+ "id": "mul2d_bc",
+ "code": "x = torch.randn(64, 128)\ny = torch.randn(64, 1)\nx * y",
+ "rtol": 0,
+ "atol": 0,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "mul",
+   "entry": "k_mul_pointwise",
+   "arg_order": [
+    "y",
+    "x",
+    "mul"
+   ],
+   "grid": [
+    8,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_bytes": 0,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "y",
+     "dtype": "f32",
+     "shape": [
+      64,
+      1
+     ],
+     "seed": 0
+    },
+    {
+     "name": "x",
+     "dtype": "f32",
+     "shape": [
+      64,
+      128
+     ],
+     "seed": 1
+    },
+    {
+     "name": "mul",
+     "dtype": "f32",
+     "shape": [
+      64,
+      128
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

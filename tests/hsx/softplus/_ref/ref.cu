@@ -1,0 +1,47 @@
+extern "C" __global__
+__launch_bounds__(256) void k_softplus_pointwise(const float* x, const float* softplus_zero, const float* softplus_one, float* softplus) {
+    int _gid = blockIdx.x * blockDim.x + threadIdx.x;
+        int a0 = _gid;
+        float in2__u0 = x[a0 * 4];
+        float v0__u0 = fabsf(in2__u0);
+        float in1__u0 = softplus_zero[0];
+        float v1__u0 = fmaxf(in1__u0, in2__u0);
+        float v2__u0 = 0.0f - v0__u0;
+        float v3__u0 = expf(v2__u0);
+        float in0__u0 = softplus_one[0];
+        float v4__u0 = in0__u0 + v3__u0;
+        float v5__u0 = log(v4__u0);
+        float v6__u0 = v1__u0 + v5__u0;
+        float in2__u1 = x[a0 * 4 + 1];
+        float v0__u1 = fabsf(in2__u1);
+        float in1__u1 = softplus_zero[0];
+        float v1__u1 = fmaxf(in1__u1, in2__u1);
+        float v2__u1 = 0.0f - v0__u1;
+        float v3__u1 = expf(v2__u1);
+        float in0__u1 = softplus_one[0];
+        float v4__u1 = in0__u1 + v3__u1;
+        float v5__u1 = log(v4__u1);
+        float v6__u1 = v1__u1 + v5__u1;
+        float in2__u2 = x[a0 * 4 + 2];
+        float v0__u2 = fabsf(in2__u2);
+        float in1__u2 = softplus_zero[0];
+        float v1__u2 = fmaxf(in1__u2, in2__u2);
+        float v2__u2 = 0.0f - v0__u2;
+        float v3__u2 = expf(v2__u2);
+        float in0__u2 = softplus_one[0];
+        float v4__u2 = in0__u2 + v3__u2;
+        float v5__u2 = log(v4__u2);
+        float v6__u2 = v1__u2 + v5__u2;
+        float in2__u3 = x[a0 * 4 + 3];
+        float v0__u3 = fabsf(in2__u3);
+        float in1__u3 = softplus_zero[0];
+        float v1__u3 = fmaxf(in1__u3, in2__u3);
+        float v2__u3 = 0.0f - v0__u3;
+        float v3__u3 = expf(v2__u3);
+        float in0__u3 = softplus_one[0];
+        float v4__u3 = in0__u3 + v3__u3;
+        float v5__u3 = log(v4__u3);
+        float v6__u3 = v1__u3 + v5__u3;
+        float4 _vs_v6__u0_9bdb1ea5 = make_float4(v6__u0, v6__u1, v6__u2, v6__u3);
+        *reinterpret_cast<float4*>(&softplus[a0 * 4]) = _vs_v6__u0_9bdb1ea5;
+}

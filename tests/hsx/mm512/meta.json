@@ -1,0 +1,61 @@
+{
+ "id": "mm512",
+ "code": "x = torch.randn(512, 512)\ny = torch.randn(512, 512)\nx @ y",
+ "rtol": 0.001,
+ "atol": 0.001,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "matmul",
+   "entry": "k_matmul_2967be",
+   "arg_order": [
+    "y",
+    "x",
+    "matmul"
+   ],
+   "grid": [
+    128,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_bytes": 73728,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "y",
+     "dtype": "f32",
+     "shape": [
+      512,
+      512
+     ],
+     "seed": 0
+    },
+    {
+     "name": "x",
+     "dtype": "f32",
+     "shape": [
+      512,
+      512
+     ],
+     "seed": 1
+    },
+    {
+     "name": "matmul",
+     "dtype": "f32",
+     "shape": [
+      512,
+      512
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "_comment": "Frozen validation expectations. Any drift fails loudly; improvements update this file explicitly.",
+ "golden_count": 23,
+ "checker_whitelist": {
+  "ptxcheck": {
+   "partial_dyn_inv": "fixture-domain: loop provably runs >=1 iteration at runtime, checker cannot prove it"
+  },
+  "racecheck": [],
+  "provcheck": []
+ },
+ "fixtures": {
+  "dyn_leak": "bug 1: load_cache leak across dynamic loops",
+  "dyn_leak2": "bug 1 variant: single-trip dynamic loop",
+  "partial_dyn_inv": "bug 2: groups==0 REM reuse; residual 128-elem tail whitelisted; expected residual_bad=128",
+  "fma_alias4": "bug 3: FMA cond alias",
+  "cse_drop": "bug 4: CSE dropped-def (PTX-level golden only)",
+  "cond_else": "bug 5: Cond else-branch addr reuse (pre-existing)",
+  "smem_align": "pre-existing: shared v2 alignment",
+  "u8_vector": "pre-existing: narrow-type v4 alignment"
+ },
+ "regression": {
+  "pass": 78,
+  "fail_named": [
+   "test_bf16_scale",
+   "test_flatindex_let",
+   "test_i16_scale",
+   "test_tree_nonpow2",
+   "test_u32_scale",
+   "test_u8_scale",
+   "test_u64_scale"
+  ]
+ },
+ "semantic": {
+  "ok": 176,
+  "bad": 0
+ },
+ "op_matrix": {
+  "emitted": 408,
+  "total": 549,
+  "ptxas_bad": 0
+ },
+ "statement_sweep": {
+  "built": 88,
+  "fails": 0
+ },
+ "seeds": {
+  "pass": 77,
+  "fail": 7,
+  "skip": 1,
+  "total": 85
+ },
+ "differential": {
+  "comment": "verdict rows frozen: DIFF/ERROR entries are shared harness/synthetic artifacts, identical across frozen/full/safe",
+  "ok": 40,
+  "diff": 16,
+  "error": 29
+ },
+ "official": {
+  "pass": 15,
+  "fail": 0
+ }
+}

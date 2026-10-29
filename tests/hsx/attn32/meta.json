@@ -1,0 +1,82 @@
+{
+ "id": "attn32",
+ "code": "q = torch.randn(32, 32)\nkt = torch.randn(32, 32)\nv = torch.randn(32, 32)\ntorch.softmax(q @ kt / 4.0, dim=-1) @ v",
+ "rtol": 0.001,
+ "atol": 0.0001,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "matmul_1",
+   "entry": "k_matmul_softmax_reduce_3277b7",
+   "arg_order": [
+    "div_c1",
+    "q",
+    "kt",
+    "v",
+    "matmul_1"
+   ],
+   "grid": [
+    2,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_bytes": 0,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "div_c1",
+     "dtype": "f32",
+     "shape": [
+      1
+     ],
+     "data": [
+      4.0
+     ]
+    },
+    {
+     "name": "q",
+     "dtype": "f32",
+     "shape": [
+      32,
+      32
+     ],
+     "seed": 1
+    },
+    {
+     "name": "kt",
+     "dtype": "f32",
+     "shape": [
+      32,
+      32
+     ],
+     "seed": 2
+    },
+    {
+     "name": "v",
+     "dtype": "f32",
+     "shape": [
+      32,
+      32
+     ],
+     "seed": 3
+    },
+    {
+     "name": "matmul_1",
+     "dtype": "f32",
+     "shape": [
+      32,
+      32
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

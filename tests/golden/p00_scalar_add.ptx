@@ -1,0 +1,41 @@
+.version 8.0
+.target sm_89
+.address_size 64
+
+.visible .entry k_add_pointwise(
+    .param .u64 param_x0,
+    .param .u64 param_x1,
+    .param .u64 param_add
+)
+{
+    .reg .pred %p<2>;
+    .reg .f32 %f<7>;
+    .reg .b32 %r<6>;
+    .reg .b64 %rd<13>;
+	ld.param.u64 %rd1, [param_x0];
+	cvta.to.global.u64 %rd2, %rd1;
+	ld.param.u64 %rd3, [param_x1];
+	cvta.to.global.u64 %rd4, %rd3;
+	ld.param.u64 %rd5, [param_add];
+	cvta.to.global.u64 %rd6, %rd5;
+	mov.u32 %r1, %tid.x;
+	mov.u32 %r2, %ctaid.x;
+	and.b32 %r3, %r1, 31;
+	shr.u32 %r4, %r1, 5;
+	setp.ge.s32 %p1, %r1, 64;
+	@%p1 bra DONE_1;
+	mul.lo.s32 %r5, %r1, 2;
+	mul.wide.s32 %rd7, %r5, 4;
+	add.s64 %rd8, %rd2, %rd7;
+	ld.global.v2.f32 {%f1, %f2}, [%rd8];
+	mul.wide.s32 %rd9, %r5, 4;
+	add.s64 %rd10, %rd4, %rd9;
+	ld.global.v2.f32 {%f3, %f4}, [%rd10];
+	add.rn.f32 %f5, %f1, %f3;
+	add.rn.f32 %f6, %f2, %f4;
+	mul.wide.s32 %rd11, %r5, 4;
+	add.s64 %rd12, %rd6, %rd11;
+	st.global.v2.f32 [%rd12], {%f5, %f6};
+DONE_1:
+	ret;
+}

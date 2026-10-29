@@ -1,0 +1,61 @@
+{
+ "id": "mm_rect2",
+ "code": "x = torch.randn(64, 128)\ny = torch.randn(128, 96)\nx @ y",
+ "rtol": 0.001,
+ "atol": 0.001,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "matmul",
+   "entry": "matmul",
+   "arg_order": [
+    "y",
+    "x",
+    "matmul"
+   ],
+   "grid": [
+    48,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_bytes": 4096,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "y",
+     "dtype": "f32",
+     "shape": [
+      128,
+      96
+     ],
+     "seed": 0
+    },
+    {
+     "name": "x",
+     "dtype": "f32",
+     "shape": [
+      64,
+      128
+     ],
+     "seed": 1
+    },
+    {
+     "name": "matmul",
+     "dtype": "f32",
+     "shape": [
+      64,
+      96
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

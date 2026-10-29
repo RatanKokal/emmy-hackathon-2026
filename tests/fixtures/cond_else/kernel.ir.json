@@ -1,0 +1,88 @@
+{
+ "inputs": [
+  "x"
+ ],
+ "outputs": [
+  "add"
+ ],
+ "nodes": {
+  "x": {
+   "op": "InputOp",
+   "op_fields": {},
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "x",
+     "shape": [
+      8192
+     ],
+     "dtype": "f32"
+    }
+   ]
+  },
+  "add_c1": {
+   "op": "ConstantOp",
+   "op_fields": {
+    "name": "add_c1",
+    "value": 3.5,
+    "context_value": null,
+    "load_ops": [],
+    "source_path": null,
+    "source_parts": [],
+    "source_shape": null,
+    "source_dtype": null,
+    "source_graph": null
+   },
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "add_c1",
+     "shape": [
+      1
+     ],
+     "dtype": "f32"
+    }
+   ]
+  },
+  "add": {
+   "op": "KernelOp",
+   "op_fields": {
+    "body": [
+     "Tile(axes=(Axis(name='a0', extent=Dim(2048), window=None),), body=(Load(names=('x0',), input='x', index=(Var(name='a0'),), dtype=DataType(name='f32', np=dtype('float32'), nbytes=4)), Load(names=('c0',), input='add_c1', index=(Literal(value=0, dtype='int'),), dtype=DataType(name='f32', np=dtype('float32'), nbytes=4)), Cond(cond=BinaryExpr(op='>', left=Var(name='x0'), right=Literal(value=0.0, dtype='float')), body=(Write(output='add', index=(Var(name='a0'),), values=('c0',), value_dtype=DataType(name='f32', np=dtype('float32'), nbytes=4), atomic=False, swizzle='NONE'),), else_body=(Write(output='add', index=(Var(name='a0'),), values=('x0',), value_dtype=DataType(name='f32', np=dtype('float32'), nbytes=4), atomic=False, swizzle='NONE'),))), block_threads=None, aux_threads=0, raster_axes=None, raster_group=None, raster_orient='m')"
+    ],
+    "name": "k_add_pointwise",
+    "zero_delegated": [],
+    "serial": []
+   },
+   "inputs": [
+    "add_c1",
+    "x"
+   ],
+   "outputs": [
+    {
+     "name": "add",
+     "shape": [
+      8192
+     ],
+     "dtype": "f32"
+    }
+   ],
+   "hints": {
+    "prov": {
+     "add": {
+      "kind": "ElementwiseOp",
+      "pieces": [
+       "add"
+      ]
+     },
+     "add_c1_bc": {
+      "kind": "IndexMapOp",
+      "pieces": [
+       "add_c1_bc"
+      ]
+     }
+    }
+   }
+  }
+ }
+}

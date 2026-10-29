@@ -1,0 +1,61 @@
+{
+ "id": "mm256",
+ "code": "x = torch.randn(256, 256)\ny = torch.randn(256, 128)\nx @ y",
+ "rtol": 0.001,
+ "atol": 0.001,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "matmul",
+   "entry": "matmul",
+   "arg_order": [
+    "y",
+    "x",
+    "matmul"
+   ],
+   "grid": [
+    384,
+    1,
+    1
+   ],
+   "block": [
+    512,
+    1,
+    1
+   ],
+   "smem_bytes": 2560,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "y",
+     "dtype": "f32",
+     "shape": [
+      256,
+      128
+     ],
+     "seed": 0
+    },
+    {
+     "name": "x",
+     "dtype": "f32",
+     "shape": [
+      256,
+      256
+     ],
+     "seed": 1
+    },
+    {
+     "name": "matmul",
+     "dtype": "f32",
+     "shape": [
+      256,
+      128
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

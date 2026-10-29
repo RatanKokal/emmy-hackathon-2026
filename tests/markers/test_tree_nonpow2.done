@@ -1,0 +1,5 @@
+FAIL compile.py failed: le "/tmp/emmygpu/compile_home/compile.py", line 1682, in stmt
+    self.stmt_tree_halve(s)
+  File "/tmp/emmygpu/compile_home/compile.py", line 1608, in stmt_tree_halve
+    raise NotImplementedError("TreeHalve length must be a power of two")
+NotImplementedError: TreeHalve length must be a power of two

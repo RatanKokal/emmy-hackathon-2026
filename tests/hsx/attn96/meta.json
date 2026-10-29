@@ -1,0 +1,82 @@
+{
+ "id": "attn96",
+ "code": "q = torch.randn(96, 64)\nkt = torch.randn(64, 96)\nv = torch.randn(96, 64)\ntorch.softmax(q @ kt / 8.0, dim=-1) @ v",
+ "rtol": 0.001,
+ "atol": 0.0001,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "matmul_1",
+   "entry": "k_matmul_softmax_reduce_6b8cc1",
+   "arg_order": [
+    "div_c1",
+    "q",
+    "kt",
+    "v",
+    "matmul_1"
+   ],
+   "grid": [
+    12,
+    1,
+    1
+   ],
+   "block": [
+    128,
+    1,
+    1
+   ],
+   "smem_bytes": 0,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "div_c1",
+     "dtype": "f32",
+     "shape": [
+      1
+     ],
+     "data": [
+      8.0
+     ]
+    },
+    {
+     "name": "q",
+     "dtype": "f32",
+     "shape": [
+      96,
+      64
+     ],
+     "seed": 1
+    },
+    {
+     "name": "kt",
+     "dtype": "f32",
+     "shape": [
+      64,
+      96
+     ],
+     "seed": 2
+    },
+    {
+     "name": "v",
+     "dtype": "f32",
+     "shape": [
+      96,
+      64
+     ],
+     "seed": 3
+    },
+    {
+     "name": "matmul_1",
+     "dtype": "f32",
+     "shape": [
+      96,
+      64
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

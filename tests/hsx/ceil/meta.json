@@ -1,0 +1,60 @@
+{
+ "id": "ceil",
+ "code": "x = torch.randn(2048)\ntorch.ceil(x * 3)",
+ "rtol": 0,
+ "atol": 0,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "ceil",
+   "entry": "k_ceil_pointwise",
+   "arg_order": [
+    "mul_c1",
+    "x",
+    "ceil"
+   ],
+   "grid": [
+    2,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_bytes": 0,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "mul_c1",
+     "dtype": "f32",
+     "shape": [
+      1
+     ],
+     "data": [
+      3.0
+     ]
+    },
+    {
+     "name": "x",
+     "dtype": "f32",
+     "shape": [
+      2048
+     ],
+     "seed": 1
+    },
+    {
+     "name": "ceil",
+     "dtype": "f32",
+     "shape": [
+      2048
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

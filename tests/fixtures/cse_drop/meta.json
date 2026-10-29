@@ -1,0 +1,60 @@
+{
+ "id": "add_big",
+ "code": "x = torch.randn(8192)\nx + 3.5",
+ "rtol": 1e-05,
+ "atol": 1e-05,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "add",
+   "entry": "k_add_pointwise",
+   "arg_order": [
+    "add_c1",
+    "x",
+    "add"
+   ],
+   "grid": [
+    8,
+    1,
+    1
+   ],
+   "block": [
+    256,
+    1,
+    1
+   ],
+   "smem_bytes": 0,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "add_c1",
+     "dtype": "f32",
+     "shape": [
+      1
+     ],
+     "data": [
+      3.5
+     ]
+    },
+    {
+     "name": "x",
+     "dtype": "f32",
+     "shape": [
+      8192
+     ],
+     "seed": 1
+    },
+    {
+     "name": "add",
+     "dtype": "f32",
+     "shape": [
+      2048
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}

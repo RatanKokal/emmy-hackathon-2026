@@ -1,0 +1,51 @@
+.version 8.0
+.target sm_89
+.address_size 64
+
+.visible .entry k_mul_pointwise(
+    .param .u64 param_x,
+    .param .u64 param_y,
+    .param .u64 param_mul
+)
+{
+    .reg .f32 %f<17>;
+    .reg .b32 %r<8>;
+    .reg .b64 %rd<17>;
+	ld.param.u64 %rd1, [param_x];
+	cvta.to.global.u64 %rd2, %rd1;
+	ld.param.u64 %rd3, [param_y];
+	cvta.to.global.u64 %rd4, %rd3;
+	ld.param.u64 %rd5, [param_mul];
+	cvta.to.global.u64 %rd6, %rd5;
+	mov.u32 %r1, %tid.x;
+	mov.u32 %r2, %ctaid.x;
+	mul.lo.s32 %r3, %r2, 256;
+	add.s32 %r4, %r3, %r1;
+	and.b32 %r5, %r1, 31;
+	shr.u32 %r6, %r1, 5;
+	mul.lo.s32 %r7, %r4, 4;
+	mul.wide.s32 %rd7, %r7, 4;
+	add.s64 %rd8, %rd2, %rd7;
+	ld.global.v2.f32 {%f1, %f2}, [%rd8];
+	max.f32 %f3, %f1, 0f00000000;
+	mul.wide.s32 %rd9, %r7, 4;
+	add.s64 %rd10, %rd4, %rd9;
+	ld.global.v2.f32 {%f4, %f5}, [%rd10];
+	mul.rn.f32 %f6, %f4, %f3;
+	max.f32 %f7, %f2, 0f00000000;
+	mul.rn.f32 %f8, %f5, %f7;
+	mul.wide.s32 %rd11, %r7, 4;
+	add.s64 %rd12, %rd2, %rd11;
+	ld.global.v2.f32 {%f9, %f10}, [%rd12+8];
+	max.f32 %f11, %f9, 0f00000000;
+	mul.wide.s32 %rd13, %r7, 4;
+	add.s64 %rd14, %rd4, %rd13;
+	ld.global.v2.f32 {%f12, %f13}, [%rd14+8];
+	mul.rn.f32 %f14, %f12, %f11;
+	max.f32 %f15, %f10, 0f00000000;
+	mul.rn.f32 %f16, %f13, %f15;
+	mul.wide.s32 %rd15, %r7, 4;
+	add.s64 %rd16, %rd6, %rd15;
+	st.global.v4.f32 [%rd16], {%f6, %f8, %f14, %f16};
+	ret;
+}

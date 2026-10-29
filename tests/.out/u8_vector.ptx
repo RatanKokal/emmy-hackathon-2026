@@ -1,0 +1,31 @@
+.version 8.0
+.target sm_89
+.address_size 64
+
+.visible .entry k_add_pointwise(
+    .param .u64 param_x,
+    .param .u64 param_add
+)
+{
+    .reg .b32 %r<10>;
+    .reg .b64 %rd<9>;
+	ld.param.u64 %rd1, [param_x];
+	cvta.to.global.u64 %rd2, %rd1;
+	ld.param.u64 %rd3, [param_add];
+	cvta.to.global.u64 %rd4, %rd3;
+	mov.u32 %r1, %tid.x;
+	mov.u32 %r2, %ctaid.x;
+	and.b32 %r3, %r1, 31;
+	shr.u32 %r4, %r1, 5;
+	mul.lo.s32 %r5, %r1, 4;
+	mul.wide.s32 %rd5, %r5, 1;
+	add.s64 %rd6, %rd2, %rd5;
+	ld.global.u8 %r6, [%rd6+1];
+	ld.global.u8 %r7, [%rd6+1+1];
+	ld.global.u8 %r8, [%rd6+1+2];
+	ld.global.u8 %r9, [%rd6+1+3];
+	mul.wide.s32 %rd7, %r5, 1;
+	add.s64 %rd8, %rd4, %rd7;
+	st.global.u8 [%rd8], %r6;
+	ret;
+}

@@ -1,0 +1,6 @@
+FAIL compile.py failed: ^^^^^^^^^^^
+  File "~/.local/lib/python3.12/site-packages/emmy/compiler/graph.py", line 285, in _eval_stmt
+    return eval(_evalable_enum_reprs(s), scope)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 1, in <module>
+NameError: name 'FlatIndex' is not defined

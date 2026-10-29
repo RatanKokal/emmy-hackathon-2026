@@ -1,0 +1,50 @@
+{
+ "id": "sum_rows",
+ "code": "x = torch.randn(64, 512)\nx.sum(-1)",
+ "rtol": 1e-05,
+ "atol": 1e-05,
+ "graph_inputs": [],
+ "graph_outputs": [],
+ "kernels": [
+  {
+   "node": "sum_1",
+   "entry": "sum_1",
+   "arg_order": [
+    "x",
+    "sum_1"
+   ],
+   "grid": [
+    128,
+    1,
+    1
+   ],
+   "block": [
+    16,
+    1,
+    1
+   ],
+   "smem_bytes": 0,
+   "zero_outputs": [],
+   "args": [
+    {
+     "name": "x",
+     "dtype": "f32",
+     "shape": [
+      64,
+      512
+     ],
+     "seed": 0
+    },
+    {
+     "name": "sum_1",
+     "dtype": "f32",
+     "shape": [
+      64
+     ],
+     "output": true
+    }
+   ],
+   "final": true
+  }
+ ]
+}
